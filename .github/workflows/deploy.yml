@@ -1,9 +1,9 @@
 name: Deploy GuestbookApp	# 워크플로워 이름
 
-on:
+on:							# 이벤트 정의
   push:
     branches:
-      - master # 또는 프로젝트의 기본 브랜치명
+      - master				# master 깃허브에 push가 되면 작동
 
 jobs:
   build-and-deploy:
@@ -22,13 +22,13 @@ jobs:
         run: mvn clean package
 
       - name: Build Docker image
-        run: docker build . -t <도커허브id>/guestbook:latest
+        run: docker build . -t lukdown10/guestbook:latest
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Docker image to Docker Hub
-        run: docker push <도커허브id>/guestbook:latest
+        run: docker push lukdown10/guestbook:latest
         
         
   SSH:
@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo docker pull <도커허브id>/guestbook:latest
+            sudo docker pull lukdown10/guestbook:latest
             sudo docker stop guestbook || true
             sudo docker rm guestbook || true
-            sudo docker run -d --name guestbook-p 9000:9000 clz2024red/guestbook:latest
+            sudo docker run -d --name guestbook-p 9000:9000 lukdown10/guestbook:latest

@@ -12,4 +12,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addMapping("/api/**") // 경로
 				.allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("http://localhost:8080");
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
